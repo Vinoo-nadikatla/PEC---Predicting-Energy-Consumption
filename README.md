@@ -80,7 +80,6 @@ A **time-aware train–test split** was used to prevent data leakage.
 
 * Actual vs Predicted plots for trend comparison
 * Residual analysis to assess model bias
-* Confusion matrix using binned demand levels (Low / Medium / High)
 * SHAP analysis to interpret feature importance and model behavior
 
 ---
