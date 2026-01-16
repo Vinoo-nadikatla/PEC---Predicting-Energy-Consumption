@@ -1,119 +1,129 @@
-# PEC---Predicting-Energy-Consumption
-🔋 Predicting Energy Consumption Using Machine Learning
-📌 Project Overview
 
-This project focuses on forecasting hourly electricity consumption using historical data from a transmission system operator.
-The dataset spans approximately six years and represents a univariate time series with strong daily, weekly, and seasonal patterns.
+# Predicting Energy Consumption Using Machine Learning
 
-The objective of this work is not enterprise-level deployment, but to demonstrate:
+## Project Overview
 
-Understanding of time-series data
+This project focuses on forecasting **hourly electricity consumption** using historical data from a transmission system operator. The dataset spans approximately **six years** and represents a **univariate time series** with strong daily, weekly, and seasonal patterns.
 
-Feature engineering for machine learning
+The goal of this assignment is to demonstrate **data understanding, feature engineering, model selection, and evaluation logic**, rather than building an enterprise-ready forecasting system.
 
-Model selection and evaluation
+---
 
-Clear reasoning and interpretability
+## Dataset Description
 
-📂 Dataset Description
+* **Frequency:** Hourly
+* **Duration:** ~6 years
+* **Target Variable:** Electricity consumption (MWh)
+* **Type:** Univariate time series
 
-Frequency: Hourly
+**Columns used:**
 
-Duration: ~6 years
+* `Start time UTC` – Timestamp
+* `Electricity consumption (MWh)` – Target variable
 
-Target Variable: Electricity consumption (MWh)
+---
 
-Type: Univariate time series
+## Approach
 
-Columns used:
+### Data Preprocessing
 
-Start time UTC – timestamp (hourly)
+* Converted timestamps to datetime and set as index
+* Handled missing values using time-based interpolation
+* Detected and treated non-physical outliers using rolling statistics
 
-Electricity consumption (MWh) – target variable
+---
 
-⚙️ Approach Summary
-1. Data Preprocessing
+### Feature Engineering
 
-Converted timestamps to datetime and set as index
+To transform the time series into a supervised learning problem, the following features were created:
 
-Checked for missing values and applied time-based interpolation
+* Time-based features: hour, day of week, month, weekend indicator
+* Lag features: 1-hour, 24-hour, and 168-hour lags
+* Rolling statistics: rolling mean and trend features
 
-Detected outliers using rolling statistics and treated non-physical anomalies
+These features enable the model to learn temporal dependencies and seasonal patterns.
 
-2. Feature Engineering
+---
 
-To convert the time series into a supervised learning problem:
+### Model Selection
 
-Time-based features: hour, day of week, month, weekend indicator
+The following models were trained and compared:
 
-Lag features: previous 1 hour, 24 hours, and 168 hours
+* Linear Regression
+* Random Forest Regressor
+* Gradient Boosting Regressor
+* XGBoost Regressor
 
-Rolling statistics: rolling mean and trend features
+**XGBoost** was selected as the final model due to:
 
-These features help the model learn temporal dependencies and seasonal patterns.
+* Better handling of non-linear patterns
+* Faster training and inference
+* Strong ability to inherit past behavior through lag features
+* Good balance between accuracy and computational efficiency
 
-3. Model Selection
+---
 
-Multiple regression models were trained and compared:
+### Model Evaluation
 
-Linear Regression (baseline)
+Models were evaluated using:
 
-Random Forest
+* Mean Absolute Error (MAE)
+* Root Mean Squared Error (RMSE)
+* R² Score
+* MAPE-based forecast accuracy
 
-Gradient Boosting
+A **time-aware train–test split** was used to prevent data leakage.
 
-XGBoost
+---
 
-XGBoost was selected as the final model due to:
+### Interpretability & Analysis
 
-Better handling of non-linear patterns
+* Actual vs Predicted plots for trend comparison
+* Residual analysis to assess model bias
+* Confusion matrix using binned demand levels (Low / Medium / High)
+* SHAP analysis to interpret feature importance and model behavior
 
-Faster training compared to traditional boosting
+---
 
-Strong ability to inherit past behavior via lag features
+## Key Insights
 
-Good balance between accuracy and computational efficiency
+* Electricity demand exhibits strong cyclical behavior
+* Lag features (daily and weekly) are the most influential
+* The model captures seasonality effectively
+* Errors increase during sudden demand spikes due to lack of external variables
 
-4. Model Evaluation
+---
 
-The models were evaluated using:
+## Business & Sustainability Impact
 
-MAE (Mean Absolute Error) – primary metric (interpretable in MWh)
+Accurate energy demand forecasting supports:
 
-RMSE (Root Mean Squared Error)
+* Improved grid stability
+* Reduced energy wastage
+* Better integration of renewable energy
+* Lower carbon emissions through optimized generation planning
 
-R² score
+---
 
-MAPE-based forecast accuracy
+## Limitations
 
-A time-aware train–test split was used to avoid data leakage.
+* Univariate dataset only
+* No weather or holiday information
+* Deterministic forecasts without uncertainty bounds
 
-5. Interpretability & Analysis
+---
 
-Actual vs Predicted plots to assess trend learning
+## Future Improvements
 
-Residual analysis to detect bias
+* Incorporate weather and calendar features
+* Use probabilistic forecasting methods
+* Apply rolling retraining strategies
+* Extend to anomaly detection
 
-Confusion matrix (binned Low/Medium/High demand) for decision-level insight
+---
 
-SHAP analysis to interpret feature importance and model behavior
+## Conclusion
 
-📊 Key Insights
+This project demonstrates a structured and practical approach to time-series forecasting using machine learning, with emphasis on **methodology, reasoning, and interpretability**, aligning with real-world data science practices.
 
-Electricity demand is highly cyclical and habit-driven
 
-Lag features (daily and weekly) are the most influential
-
-The model captures seasonality effectively but struggles during sudden demand spikes (expected without weather data)
-
-🌱 Business & Sustainability Impact
-
-Accurate energy consumption forecasting can:
-
-Improve grid stability
-
-Reduce energy overproduction
-
-Support renewable energy integration
-
-Lower carbon emissions through better planning
